@@ -1,3 +1,0 @@
-/home/msatskevich/Desktop/MIPT++/Variant/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/msatskevich/Desktop/MIPT++/Variant/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/msatskevich/Desktop/MIPT++/Variant/cmake-build-debug/CMakeFiles/Variant.dir
