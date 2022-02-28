@@ -1,0 +1,3 @@
+htmlspecialchars & escapestring
+requests to task runner: student.php, class_task.php, student_task.php
+remove mysqli!

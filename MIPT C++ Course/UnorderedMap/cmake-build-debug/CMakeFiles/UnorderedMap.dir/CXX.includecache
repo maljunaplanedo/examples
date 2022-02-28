@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/msatskevich/Desktop/MIPT++/UnorderedMap/main.cpp
+iostream
+-
+vector
+-
+unordered_map.h
+/home/msatskevich/Desktop/MIPT++/UnorderedMap/unordered_map.h
+
+/home/msatskevich/Desktop/MIPT++/UnorderedMap/unordered_map.h
+iostream
+-
+memory
+-
+vector
+-
+chrono
+-
+list
+-
+functional
+-
+cmath
+-
+

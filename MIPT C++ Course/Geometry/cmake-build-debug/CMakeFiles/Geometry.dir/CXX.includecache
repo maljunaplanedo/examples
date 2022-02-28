@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/msatskevich/Desktop/Geometry/geometry.h
+iostream
+-
+cmath
+-
+utility
+-
+vector
+-
+algorithm
+-
+iomanip
+-
+typeinfo
+-
+
+/home/msatskevich/Desktop/Geometry/main.cpp
+iostream
+-
+geometry.h
+/home/msatskevich/Desktop/Geometry/geometry.h
+

@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/msatskevich/Desktop/BigIntegerForkKnuth/biginteger.h
+iostream
+-
+vector
+-
+string
+-
+cmath
+-
+complex
+-
+algorithm
+-
+
+/home/msatskevich/Desktop/BigIntegerForkKnuth/main.cpp
+biginteger.h
+/home/msatskevich/Desktop/BigIntegerForkKnuth/biginteger.h
+

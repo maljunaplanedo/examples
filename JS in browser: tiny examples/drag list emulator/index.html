@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<style type="text/css">
+		
+		* {
+			margin: 0;
+			padding: 0;
+			text-decoration: none;
+			outline: none;
+		}
+
+		body {
+			font-size: 0;
+			min-width: 900px;
+			width: 100%;
+		}
+
+		.wrap {
+			margin: auto;
+		}
+
+		.wrap, .drag-list {
+			width: 900px;
+		}
+
+		.drag-list {
+			margin-top: 20px;
+			user-select: none;
+			position: relative;
+		}
+
+		.item {
+			height: 40px;
+			width: 100%;
+			cursor: pointer;
+			position: absolute;
+		}
+
+		.item p {
+			font-size: 22px;
+			margin-left: 20px;
+			display: inline-block;
+		}
+
+		.item:hover {
+			background-color: #fafafa;
+		}
+
+		.item:active {
+			background-color: #eeeeee;
+			z-index: 99;
+		}
+
+		.vertical-align:before {
+			display: inline-block;
+			height: 100%;
+			content: '';
+			vertical-align: middle;
+		}
+
+		.vertical-align > * {
+			vertical-align: middle!important;
+		}
+
+		.vertical-align > * > * {
+			vertical-align: top;
+		}
+
+
+
+	</style>
+
+	<script type="text/javascript">
+
+		function getTop(index) {
+			return window.ITEM_HEIGHT * index;
+		}
+
+		function getIndex(coord) {
+
+			return Math.max(0, Math.min(window.LIST_SIZE - 1,
+				Math.floor((coord - .01 + window.ITEM_HEIGHT / 2) / window.ITEM_HEIGHT)));
+
+		}
+
+		function fly(oldIndex, newIndex) {
+
+			var o = $(window.listElements[oldIndex]);
+			o.stop(true);
+			var newCoord = getTop(newIndex);
+
+			o.animate({
+				top: newCoord
+			}, window.ANIMATION_DURATION);
+
+		}
+
+		function startDrag(event) {
+			$(this).stop(true);
+			window.dragged = this;
+			window.difY = event.pageY - $(this).position().top;
+			$(document).mousemove(drag);
+			$(document).mouseup(stopDrag);
+		}
+
+		function drag(event) {
+
+			var oldIndex = getIndex($(window.dragged).position().top);
+
+			var newCoord = event.pageY - window.difY;
+			newCoord = Math.min(newCoord, getTop(window.LIST_SIZE - 1));
+			newCoord = Math.max(newCoord, getTop(0));
+			$(window.dragged).css('top', newCoord);
+
+			var newIndex = getIndex($(window.dragged).position().top);
+
+			if (oldIndex < newIndex) {
+
+				for (var i = oldIndex + 1; i <= newIndex; i++) {
+					fly(i, i - 1);
+					[listElements[i - 1], listElements[i]] = 
+						[listElements[i], listElements[i - 1]]; 
+				}
+
+			}
+			else {
+
+				for (var i = oldIndex - 1; i >= newIndex; i--) {
+					fly(i, i + 1);
+					[listElements[i], listElements[i + 1]] = 
+						[listElements[i + 1], listElements[i]];
+				} 
+
+			}
+
+		}
+
+		function stopDrag() {
+
+			$(document).off('mousemove', drag);
+			$(document).off('mouseup', stopDrag);
+			$(window.dragged).animate({
+				top: getTop(getIndex($(window.dragged).position().top))
+			}, window.ANIMATION_DURATION);
+
+		}
+		
+		$(function() {
+
+			window.ITEM_HEIGHT = $('.drag-list .item').height();
+			window.LIST_SIZE = $('.drag-list .item').length;
+			window.ANIMATION_DURATION = 100;
+
+			window.listElements = [];
+
+			$('.drag-list .item').each(function(index, el) {
+				window.listElements.push(el);
+				$(el).mousedown(startDrag);
+				$(el).css('top', getTop(index));
+			});
+
+
+		});
+		
+
+	</script>
+
+</head>
+<body>
+	<div class="wrap">
+			
+		<div class="drag-list">
+			<div class="item vertical-align"><p>1</p></div>
+			<div class="item vertical-align"><p>2</p></div>
+			<div class="item vertical-align"><p>3</p></div>
+			<div class="item vertical-align"><p>4</p></div>
+			<div class="item vertical-align"><p>5</p></div>
+			<div class="item vertical-align"><p>6</p></div>
+			<div class="item vertical-align"><p>7</p></div>
+			<div class="item vertical-align"><p>8</p></div>
+			<div class="item vertical-align"><p>9</p></div>
+			<div class="item vertical-align"><p>10</p></div>
+		</div>
+
+	</div>
+	
+</body>
+</html>

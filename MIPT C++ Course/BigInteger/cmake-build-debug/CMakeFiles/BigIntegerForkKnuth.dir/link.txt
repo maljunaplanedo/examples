@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/BigIntegerForkKnuth.dir/main.cpp.o  -o BigIntegerForkKnuth 

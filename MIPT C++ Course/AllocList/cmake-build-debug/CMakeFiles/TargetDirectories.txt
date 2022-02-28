@@ -1,0 +1,3 @@
+/home/msatskevich/Desktop/MIPT++/AllocList/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/msatskevich/Desktop/MIPT++/AllocList/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/msatskevich/Desktop/MIPT++/AllocList/cmake-build-debug/CMakeFiles/AllocList.dir

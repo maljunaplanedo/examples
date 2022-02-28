@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<style type="text/css">
+
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
+		form[name="select-form"] {
+			margin: 25.5px;
+		}
+
+		.change {
+			width: 20px;
+			height: 20px;
+			margin-left: 25px;
+			position: absolute;
+			top: 100px;
+		}
+
+		.select > ul {
+			z-index: 99;
+			width: 300px;
+			user-select: none;
+			position: absolute;
+		}
+
+		.select > ul > li {
+			height: 20px;
+			display: block;
+			border-bottom: 1px solid grey;
+			background-color: #fff;
+			list-style: none;
+		}
+
+		.select > ul > li > span {
+			display: none;
+		}
+
+		.select > ul.open > li:hover {
+			background-color: black;
+			color: white;
+		}
+
+		.select  li.selected {
+			background-color: pink;
+		}
+
+		select {
+			display: none;
+		}
+
+		form[name="select-form"] button {
+			position: absolute;
+			top: 50px;
+		}
+
+	</style>
+
+	<script type="text/javascript">
+
+		function setColor() {
+			$('.change').css('background-color', $('.select option:selected').val());
+		}
+
+		function syncLists() {
+			var custom = $('.select ul');
+			custom.empty();
+
+			var options = $('.select option');
+			options.each(function(index, el) {
+				var newOpt = $('<li class="listclass-' + $(el).val() + '">' + $(el).html() + '</li>');
+				custom.append(newOpt);
+			});
+
+		}
+
+		function selectItem(value) {
+			$('.select option[value="' + value + '"]').prop('selected', true);
+
+			$('.select li.listclass-' + value).addClass('selected');
+
+			setColor();
+		}
+
+		function unselectItem() {
+			$('.select option:selected').prop('selected', false);
+			$('.select li.selected').removeClass('selected');
+		}
+
+
+		function closeList() {
+
+			$('.select ul').off('click');
+
+			$('.select li').each(function(index, el) {
+				$(el).hide();
+				$(el).off('click');
+			});
+
+			$('.select li.selected').show();
+
+			$('.select ul').removeClass('open');
+
+			$('.select ul').click(openList);
+
+		}
+
+		function openList() {
+
+			$('.select ul').off('click');
+
+			$('.select li').each(function(index, el) {
+				$(el).show();
+				$(el).click(function() {
+					unselectItem();
+					$.each(this.className.split(/\s+/), function(index, el) {
+						if (el.includes('listclass-'))
+							selectItem(el.substring(10, el.length));
+					});
+				});
+			});
+
+			$('.select ul').click(closeList);
+			$('.select ul').addClass('open');
+
+		}
+
+		$(function() {
+
+			syncLists();
+			selectItem('yellow');
+			closeList();
+
+		});
+
+	</script>
+
+
+</head>
+<body>
+	<form name="select-form" action="" method="get">
+		
+		<div class="select">
+			<select name="color">
+				<option value="red">Red</option>
+				<option value="yellow">Yellow</option>
+				<option value="green">Green</option>
+			</select>
+
+			<ul>
+			</ul>
+
+		</div>
+		<button type="submit">OK</button>
+
+	</form>
+
+	<div class="change"></div>
+
+</body>
+</html>

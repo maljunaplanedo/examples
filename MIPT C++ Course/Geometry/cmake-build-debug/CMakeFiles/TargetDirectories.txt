@@ -1,0 +1,3 @@
+/home/msatskevich/Desktop/Geometry/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/msatskevich/Desktop/Geometry/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/msatskevich/Desktop/Geometry/cmake-build-debug/CMakeFiles/Geometry.dir

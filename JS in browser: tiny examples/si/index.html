@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		
+		* {
+			margin: 0;
+			padding: 0;
+			outline: none;
+			text-decoration: none;
+		}
+
+		body {
+			font-size: 0;
+		}
+
+		.wrapper {
+			width: 800px;
+			margin: auto;
+			border: 1px solid black;
+		}
+
+		.top {
+			height: 40px;
+			border-bottom: 1px solid black;
+		}
+
+		.top button {
+			height: 100%;
+		}
+
+		.top button, .top .current {
+			font-size: 13px;
+		}
+
+		.top .current {
+			margin-left: 100px;
+		}
+
+		.top .next-button {
+			float: right;
+		}
+
+		.content {
+			height: 400px;
+			border-bottom: 1px solid black;
+			overflow: hidden;
+		}
+
+		.footer {
+			height: 20px;
+		}
+
+		.holder {
+			position: relative;
+			height: 100%;
+			width: 20000px;
+		}
+
+		.holder .item {
+			display: inline-block;
+			width: 800px;
+			height: 100%;
+		}
+
+		.green {
+			background-color: green;
+		}
+
+		.red {
+			background-color: red;
+		}
+
+		.yellow {
+			background-color: yellow;
+		}
+
+		.progress-bar {
+			height: 100%;
+			background-color: grey;
+			width: 0;
+		}
+
+	</style>
+
+	<script type="text/javascript">
+
+
+		const SLIDER_ANIMATION_FREQUENCY = 1;
+		const SLIDER_ANIMATION_SPEED = .01;
+		const PROGRESS_BAR_ANIMATION_FREQUENCY = 5;
+		const PROGRESS_BAR_ANIMATION_SPEED = .001;
+
+		class ProgressBar {
+
+			constructor(barObject) {
+				this.obj = barObject;
+				this.obj.style.width = 0;
+			}
+
+			fill(value) {
+				this.obj.style.width = (value * 100) + '%';
+			} 
+
+		}
+
+		class MyProgressBar extends ProgressBar {
+			constructor() {
+				super(document.getElementsByClassName('progress-bar')[0]);
+			}
+		}
+
+		class Button {
+			constructor(buttonObject, f) {
+				this.obj = buttonObject;
+				this.obj.onclick = f;
+			}
+		}
+
+
+		class Holder {
+			constructor(holderObject) {
+				this.obj = holderObject;
+				this.pos = 0;
+			}
+
+			set position(value) {
+				this.pos = value;
+				this.obj.style.left = (800 * this.pos) + 'px'; 
+			}
+
+			get position() {
+				return this.pos;
+			}
+
+			fromFrontToBack() {
+				var col = this.obj.getElementsByTagName('div');
+
+				var front = col[0];
+				this.obj.removeChild(front);
+				this.obj.append(front);
+
+			}
+
+			fromBackToFront() {
+				var col = this.obj.getElementsByTagName('div');
+
+				var back = col[col.length - 1];
+				this.obj.removeChild(back);
+				this.obj.prepend(back);
+
+				this.position = -1;
+			}
+
+		}
+
+		class MyHolder extends Holder {
+			constructor() {
+				super(document.getElementsByClassName('holder')[0]);
+			} 
+		}
+
+		
+
+		class PrevButton extends Button {
+			constructor(slider) {
+				super(document.getElementsByClassName('prev-button')[0],
+					() => { slider.startMoving(1); } );
+			}
+		}
+
+		class NextButton extends Button {
+			constructor(slider) {
+				super(document.getElementsByClassName('next-button')[0],
+					() => { slider.startMoving(-1); } );
+			}
+		}
+
+		
+		class Slider {
+			constructor() {
+				this.holder = new MyHolder();
+				this.prevButton = new PrevButton(this);
+				this.nextButton = new NextButton(this);
+				this.progressBar = new MyProgressBar();
+				this.startWaiting();
+			}
+
+
+			get waitProgress() {
+				return this.wp;
+			}
+
+			set waitProgress(value) {
+				this.wp = value;
+				this.progressBar.fill(Math.min(1, this.wp));
+			}
+
+			startWaiting() {
+				this.moving = false;
+				this.clearState();
+				this.timer = setInterval(() => { this.wait(); }, PROGRESS_BAR_ANIMATION_FREQUENCY);
+			}
+
+			wait() {
+				this.waitProgress += PROGRESS_BAR_ANIMATION_SPEED;
+				if (this.waitProgress >= 1)
+					this.startMoving(-1);
+			}
+
+			clearState() {
+				clearInterval(this.timer);
+				this.holder.position = 0;
+				this.waitProgress = 0;
+			}
+
+
+			startMoving(where) {
+				if (this.moving)
+					return;
+				this.moving = true;
+				this.clearState();
+				if (where == 1) 
+					this.holder.fromBackToFront();
+				this.timer = setInterval(() => { this.move(where); }, SLIDER_ANIMATION_FREQUENCY);
+			}
+
+			move(where) {
+				if ((where == 1 && this.holder.position >= 0) ||
+					(where == -1 && this.holder.position <= -1)) {
+					if (where == -1)
+						this.holder.fromFrontToBack();
+					this.startWaiting();
+					return;
+				}
+				this.holder.position += where * SLIDER_ANIMATION_SPEED;
+			}
+
+
+
+		}
+		
+
+
+		window.onload = event => {
+			var s = new Slider();
+		};
+
+
+
+	</script>
+
+
+</head>
+<body>
+	
+	<div class="wrapper">
+	
+		<div class="top">
+			
+			<button class="prev-button">Prev</button>
+			<button class="next-button">Next</button>
+
+		</div>
+
+		<div class="content">
+			<div class="holder">
+				<div class="item green"></div>
+				<div class="item red"></div>
+				<div class="item yellow"></div>
+			</div>
+		</div>
+
+		<div class="footer">
+			<div class="progress-bar"></div>
+		</div>
+
+	</div>
+
+
+</body>
+</html>

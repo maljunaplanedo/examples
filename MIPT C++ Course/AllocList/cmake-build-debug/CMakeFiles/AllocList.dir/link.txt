@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/AllocList.dir/main.cpp.o -o AllocList 
