@@ -1,30 +1,14 @@
-#How to install?
-##(for Linux)
+## Игра
+Очень простая сетевая игра для 2 игроков, сделанная в команде (мной большая часть :)) в качестве учебного проекта в МФТИ.
 
-This is a game for 2 computers.
+Используется **Python**, для реализации сетевого режима - **socket**'ы, для графики - **GTK, PyCairo**.
 
-1) clone repository on both of them\
-`git clone https://github.com/maljunaplanedo/tpgame`
-   
-2) install PyGObject and pycairo for Linux\n
-`sudo apt-get install pkg-config`\
-   `sudo apt-get install libcairo2-dev`\
-   `sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-3.0`\
-   `sudo apt install libgirepository1.0-dev gcc libcairo2-dev pkg-config python3-dev gir1.2-gtk-3.0`
-   
-3) install Python modules
-   `pip install -r requirements.txt`
- 
-4) on host computer, type this\
-`host PORT`
-   to netconfig.txt, where PORT is any port
+У каждого игрока есть отряды, состоящие из солдат, изначально один отряд из одного содата.
+Между отрядами можно переключаться.
+Игроки ходят по очереди, за ход можно сделать фиксированное количество шагов по карте.
 
-5) on other computer, type this\
-`ADDRESS PORT`
-   to netconfig.txt, where PORT is the por t 
-   you've specified for the host computer, 
-   ADDRESS is the address of the host computer 
-   in your local network. 
+По карте разбросаны крепости, которые можно занимать (если она пустая), или захватывать (если там уже есть гарнизон противника).
+Каждая крепость приносит прибыль в начале хода. За деньги в крепостях можно нанимать солдат с разными характеристиками (броня, атака, здоровье),
+а также оставлять гарнизон и разделять отряды.
 
-5) run main.py
-`python3 main.py`
+При столкновении двух отрядов происходит автоматический бой, побеждает лучший отряд. Задача - уничтожить все отряды противника.
