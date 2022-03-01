@@ -1,0 +1,3 @@
+## Variant
+
+Аналог `std::variant`.
