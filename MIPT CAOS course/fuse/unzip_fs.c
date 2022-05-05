@@ -8,9 +8,7 @@
 #include <string.h>
 #include <zip.h>
 
-enum {
-    PATH_MAX_SURE = PATH_MAX + 5
-};
+enum { PATH_MAX_SURE = PATH_MAX + 5 };
 
 typedef struct {
     char** buffer;
@@ -56,7 +54,8 @@ void strset_insert(strset_t* strset, char* value)
     strset->buffer[strset->size++] = value;
 }
 
-void trim(const char* path, char* result) {
+void trim(const char* path, char* result)
+{
     size_t len = strlen(path);
     if (len > 0 && path[0] == '/') {
         ++path;
@@ -70,7 +69,8 @@ void trim(const char* path, char* result) {
     result[len] = '\0';
 }
 
-void split_path(const char* path, char* dirname, char* name) {
+void split_path(const char* path, char* dirname, char* name)
+{
     size_t len = strlen(path);
 
     if (len == 0) {
@@ -80,7 +80,7 @@ void split_path(const char* path, char* dirname, char* name) {
     }
 
     size_t last_slash_idx = len - 1;
-    for(;;) {
+    for (;;) {
         if (path[last_slash_idx] == '/') {
             break;
         }
@@ -106,13 +106,10 @@ void split_path(const char* path, char* dirname, char* name) {
 
 zip_t* archive;
 
-typedef enum {
-    NOT_EXIST,
-    IS_FILE,
-    IS_DIR
-} check_t;
+typedef enum { NOT_EXIST, IS_FILE, IS_DIR } check_t;
 
-check_t check(const char* path) {
+check_t check(const char* path)
+{
     if (path[0] == '\0') {
         return IS_DIR;
     }
@@ -138,7 +135,8 @@ typedef struct {
     size_t n_dirs;
 } dirinfo_t;
 
-void dirinfo_get(dirinfo_t* dirinfo, const char* path) {
+void dirinfo_get(dirinfo_t* dirinfo, const char* path)
+{
     strset_init(&dirinfo->entries);
     dirinfo->n_dirs = 0;
 
@@ -168,7 +166,8 @@ void dirinfo_get(dirinfo_t* dirinfo, const char* path) {
     }
 }
 
-void dirinfo_destroy(dirinfo_t* dirinfo) {
+void dirinfo_destroy(dirinfo_t* dirinfo)
+{
     for (size_t i = 0; i < dirinfo->entries.size; ++i) {
         free(strset_get(&dirinfo->entries, i));
     }
